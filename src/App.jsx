@@ -3,18 +3,17 @@ import './App.css'
 
 // eslint-disable-next-line no-unused-vars
 import { Movies } from './components/Movies.jsx'
-import { UseMovies } from './hooks/UseMovies'
-import { UseSearch } from './hooks/UseSearch'
+import { useMovies } from './hooks/useMovies'
+import { useSearch } from './hooks/useSearch'
 
 function App () {
-  const { search, setSearch, error } = UseSearch()
-  const { movies } = UseMovies()
+  const { search, setSearch, error } = useSearch()
+  const { movies, getMovies, loading } = useMovies({ search })
   const inputRef = useRef()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log({ search })
-
+    getMovies()
     // this is a UNcontrolled form
     // teke the value of an input without any hook (THE INPUT MUST HAVE A NAME)
     // const fields = new window.FormData(e.target)
@@ -53,7 +52,7 @@ function App () {
       </header>
 
       <main>
-        <Movies movies={movies} />
+        {loading ? <p>Buscando peliculas...</p> : <Movies movies={movies} />}
       </main>
     </div >
   )
